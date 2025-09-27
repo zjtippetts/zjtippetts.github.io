@@ -3,4 +3,4 @@
 This site will host my tutorial posts. Stay tuned for more!
 
 ## Posts
-- [Cleaning Messy Fantasy Football Data](./fantasy-football-cleaning.md)
+- [Cleaning Messy Fantasy Football Data](posts/fantasy-football-cleaning.md)
