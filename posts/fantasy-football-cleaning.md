@@ -11,7 +11,7 @@ import pandas as pd
 `df = pd.read_csv('fantasy_football_2024.csv')`
 
 ### Display the first five rows
-print(df.head())
+`print(df.head())`
 
 The .head() method shows the first few rows, revealing issues like Tm instead of Team or names like Christian McCaffrey*.
 ## Step 2: Spotting Data Issues
@@ -22,10 +22,10 @@ Special characters: Names like Patrick Mahomes+ include flags for accolades.
 Unneeded columns: Rk (rank) may be irrelevant.
 Check for missing values and column names:
 ### Check for missing values
-print(df.isnull().sum())
+`print(df.isnull().sum())`
 
 ### List column names
-print(df.columns)
+`print(df.columns)`
 
 Suppose the output shows:
 Column
@@ -45,19 +45,19 @@ Let's clean the dataset step-by-step.
 **3.1 Handle Missing Values**
 We'll fill missing FantPt values with 0 (assuming no points scored) and drop rows with missing Tm, as team data is critical.
 ### Fill missing FantPt with 0
-df['FantPt'] = df['FantPt'].fillna(0)
+`df['FantPt'] = df['FantPt'].fillna(0)`
 
 ### Drop rows with missing Tm
-df = df.dropna(subset=['Tm'])
+`df = df.dropna(subset=['Tm'])`
 
 **3.2 Clean Player Names and Extract Flags**
 Names like Christian McCaffrey* or Patrick Mahomes+ need cleaning. We'll create ProBowl and AllPro columns to flag these accolades and remove the symbols.
 ### Create flag columns
-df['ProBowl'] = df['Player'].str.contains('\*', regex=True, na=False)
-df['AllPro'] = df['Player'].str.contains('\+', regex=True, na=False)
+`df['ProBowl'] = df['Player'].str.contains('\*', regex=True, na=False)
+df['AllPro'] = df['Player'].str.contains('\+', regex=True, na=False)`
 
 ### Remove * and + from Player names
-df['Player'] = df['Player'].str.replace('[\*\+]', '', regex=True)
+`df['Player'] = df['Player'].str.replace('[\*\+]', '', regex=True)`
 
 Here's the transformation:
 Player Before
@@ -79,15 +79,15 @@ False
 
 **3.3 Rename Columns**
 Rename Tm to Team and FantPt to FantasyPoints for clarity:
-df = df.rename(columns={'Tm': 'Team', 'FantPt': 'FantasyPoints'})
+`df = df.rename(columns={'Tm': 'Team', 'FantPt': 'FantasyPoints'})`
 
 **3.4 Fix Data Types**
 Ensure FantasyPoints is a float for calculations:
-df['FantasyPoints'] = df['FantasyPoints'].astype(float)
+`df['FantasyPoints'] = df['FantasyPoints'].astype(float)`
 
 **3.5 Drop Unneeded Columns**
 Drop the Rk column, as it’s not needed for analysis:
-df = df.drop(columns=['Rk'])
+`df = df.drop(columns=['Rk'])`
 
 ## Step 4: The Cleaned Dataset
 After cleaning, our dataset is tidy and analysis-ready. Here's a sample:
