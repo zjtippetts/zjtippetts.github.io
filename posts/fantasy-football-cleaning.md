@@ -5,7 +5,7 @@ We'll work with a sample CSV, fantasy_football_2024.csv, addressing common issue
 ## Step 1: Loading the Dataset
 First, we need to load the dataset into Pandas. Assume our file, fantasy_football_2024.csv, has columns like Player, Tm, FantPt, and Rk, but it's messy—some names have * or +, and column names are unclear.
 
-![Pro Football Reference Table](images/2024fantasytable.png)
+![Pro Football Reference Table](../images/2024fantasytable.png)
 
 
 Here's the code to load and inspect it:
