@@ -9,7 +9,8 @@ import pandas as pd
 
 ### Load the CSV file
 ```python 
-df = pd.read_csv('fantasy_football_2024.csv')```
+df = pd.read_csv('fantasy_football_2024.csv')
+```
 
 ### Display the first five rows
 `print(df.head())`
