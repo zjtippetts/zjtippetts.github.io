@@ -13,7 +13,9 @@ df = pd.read_csv('fantasy_football_2024.csv')
 ```
 
 ### Display the first five rows
-`print(df.head())`
+```python
+print(df.head())
+```
 
 The .head() method shows the first few rows, revealing issues like Tm instead of Team or names like Christian McCaffrey*.
 ## Step 2: Spotting Data Issues
@@ -24,22 +26,23 @@ Special characters: Names like Patrick Mahomes+ include flags for accolades.
 Unneeded columns: Rk (rank) may be irrelevant.
 Check for missing values and column names:
 ### Check for missing values
-`print(df.isnull().sum())`
+```python
+print(df.isnull().sum())
+```
 
 ### List column names
-`print(df.columns)`
+```python
+print(df.columns)
+```
 
 Suppose the output shows:
-Column
-Missing Values
-Player
-0
-Tm
-3
-FantPt
-8
-Rk
-0
+| Rk | Player            | Tm  | FantPos | Age | G  | GS | Rush Att | Rush Yds | Rush TD | Rec Tgt | Rec | Rec Yds | Rec TD | FantPt | PPR   | DKPt   | FDPT   | VBD |
+|----|-------------------|-----|---------|-----|----|----|----------|----------|---------|---------|-----|---------|--------|--------|-------|--------|--------|-----|
+| 1  | Saquon Barkley*+  | PHI | RB      | 27  | 16 | 16 | 345      | 2005     | 13      | 43      | 33  | 278     | 2      | 322    | 355.3 | 362.3  | 338.8  | 163 |
+| 2  | Derrick Henry*    | BAL | RB      | 30  | 17 | 17 | 325      | 1921     | 16      | 22      | 19  | 193     | 0      | 317    | 336.4 | 343.4  | 326.9  | 159 |
+| 3  | Jahmyr Gibbs*     | DET | RB      | 22  | 17 | 17 | 250      | 1412     | 16      | 63      | 52  | 517     | 4      | 311    | 362.9 | 369.3  | 339.9  | 153 |
+| 4  | Lamar Jackson*+   | BAL | QB      | 27  | 17 | 17 | 139      | 915      | 4       | 0       | 0   | 0       | 0      | 430    | 430.4 | 445.4  | 434.4  | 140 |
+| 5  | Ja'Marr Chase*+   | CIN | WR      | 24  | 17 | 17 | 32       | 170      | 0       | 175     | 127 | 1708    | 13     | 276    | 403.0 | 406.0  | 339.5  | 138 |
 
 This confirms missing values in Tm and FantPt, and Rk is likely unnecessary.
 ## Step 3: Cleaning the Data
@@ -47,19 +50,27 @@ Let's clean the dataset step-by-step.
 **3.1 Handle Missing Values**
 We'll fill missing FantPt values with 0 (assuming no points scored) and drop rows with missing Tm, as team data is critical.
 ### Fill missing FantPt with 0
-`df['FantPt'] = df['FantPt'].fillna(0)`
+```python
+df['FantPt'] = df['FantPt'].fillna(0)
+```
 
 ### Drop rows with missing Tm
-`df = df.dropna(subset=['Tm'])`
+```python
+df = df.dropna(subset=['Tm'])
+```
 
 **3.2 Clean Player Names and Extract Flags**
 Names like Christian McCaffrey* or Patrick Mahomes+ need cleaning. We'll create ProBowl and AllPro columns to flag these accolades and remove the symbols.
 ### Create flag columns
-`df['ProBowl'] = df['Player'].str.contains('\*', regex=True, na=False)
-df['AllPro'] = df['Player'].str.contains('\+', regex=True, na=False)`
+```python
+df['ProBowl'] = df['Player'].str.contains('\*', regex=True, na=False)
+df['AllPro'] = df['Player'].str.contains('\+', regex=True, na=False)
+```
 
 ### Remove * and + from Player names
-`df['Player'] = df['Player'].str.replace('[\*\+]', '', regex=True)`
+```python
+df['Player'] = df['Player'].str.replace('[\*\+]', '', regex=True)
+```
 
 Here's the transformation:
 Player Before
@@ -81,15 +92,21 @@ False
 
 **3.3 Rename Columns**
 Rename Tm to Team and FantPt to FantasyPoints for clarity:
-`df = df.rename(columns={'Tm': 'Team', 'FantPt': 'FantasyPoints'})`
+```python
+df = df.rename(columns={'Tm': 'Team', 'FantPt': 'FantasyPoints'})
+```
 
 **3.4 Fix Data Types**
 Ensure FantasyPoints is a float for calculations:
-`df['FantasyPoints'] = df['FantasyPoints'].astype(float)`
+```python
+df['FantasyPoints'] = df['FantasyPoints'].astype(float)
+```
 
 **3.5 Drop Unneeded Columns**
 Drop the Rk column, as it’s not needed for analysis:
-`df = df.drop(columns=['Rk'])`
+```python
+df = df.drop(columns=['Rk'])
+```
 
 ## Step 4: The Cleaned Dataset
 After cleaning, our dataset is tidy and analysis-ready. Here's a sample:
@@ -120,4 +137,3 @@ Calculate metrics like points per game.
 Build a model to predict future performance.
 Conclusion: Try It Yourself!
 Cleaning messy fantasy football data with Pandas transforms raw stats into a powerful tool for analysis. You've learned to handle missing values, clean player names, and standardize columns—skills that apply to any dataset. Ready to practice? Clone this repo with the sample dataset and code, run the notebook, and share your cleaned dataset in the comments below!
-
