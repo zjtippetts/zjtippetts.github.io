@@ -5,10 +5,10 @@ We'll work with a sample CSV, fantasy_football_2024.csv, addressing common issue
 ## Step 1: Loading the Dataset
 First, we need to load the dataset into Pandas. Assume our file, fantasy_football_2024.csv, has columns like Player, Tm, FantPt, and Rk, but it's messy—some names have * or +, and column names are unclear.
 Here's the code to load and inspect it:
-import pandas as pd
 
 ### Load the CSV file
-```python 
+```python
+import pandas as pd
 df = pd.read_csv('fantasy_football_2024.csv')
 ```
 
@@ -17,54 +17,63 @@ df = pd.read_csv('fantasy_football_2024.csv')
 print(df.head())
 ```
 
-| Rk | Player            | Tm  | FantPos | Age | G  | GS | Rush Att | Rush Yds | Rush TD | Rec Tgt | Rec | Rec Yds | Rec TD | FantPt | PPR   | DKPt   | FDPT   | VBD | PosRank | OvRank |
-|----|------------------|-----|---------|-----|----|----|----------|----------|---------|---------|-----|---------|--------|--------|-------|--------|--------|-----|---------|--------|
-| 1  | Saquon Barkley*+ | PHI | RB      | 27  | 16 | 16 | 345      | 2005     | 13      | 43      | 33  | 278     | 2      | 322    | 355.3 | 362.3  | 338.8  | 163 | 1       | 1      |
-| 2  | Derrick Henry*   | BAL | RB      | 30  | 17 | 17 | 325      | 1921     | 16      | 22      | 19  | 193     | 0      | 317    | 336.4 | 343.4  | 326.9  | 159 | 2       | 2      |
-| 3  | Jahmyr Gibbs*    | DET | RB      | 22  | 17 | 17 | 250      | 1412     | 16      | 63      | 52  | 517     | 4      | 311    | 362.9 | 369.3  | 339.9  | 153 | 3       | 3      |
-| 4  | Lamar Jackson*+  | BAL | QB      | 27  | 17 | 17 | 139      | 915      | 4       | 0       | 0   | 0       | 0      | 430    | 430.4 | 445.4  | 434.4  | 140 | 1       | 4      |
-| 5  | Ja'Marr Chase*+  | CIN | WR      | 24  | 17 | 17 | 32       | 170      | 0       | 175     | 127 | 1708    | 13     | 276    | 403.0 | 406.0  | 339.5  | 138 | 1       | 5      |
+| Rk | Player           | Tm  | FantPos | Age | G  | GS | Cmp | Att | Yds  | TD | Int | Att | Yds  | Y/A  | TD | Tgt | Rec | Yds  | Y/R  | TD | Fmb | FL | TD | 2PM | 2PP | FantPt | PPR   | DKPt  | FDPt  | VBD | PosRank | OvRank |
+|----|-----------------|-----|---------|-----|----|----|-----|-----|------|----|-----|-----|------|------|----|-----|-----|------|------|----|-----|----|----|-----|-----|--------|-------|-------|-------|-----|---------|--------|
+| 1  | Saquon Barkley*+ | PHI | RB      | 27  | 16 | 16 | 0   | 0   | 0    | 0  | 0   | 345 | 2005 | 5.81 | 13 | 43  | 33  | 278  | 8.42 | 2  | 2   | 1  | 15 | 3   |     | 322    | 355.3 | 362.3 | 338.8 | 163 | 1       | 1      |
+| 2  | Derrick Henry*  | BAL | RB      | 30  | 17 | 17 | 0   | 0   | 0    | 0  | 0   | 325 | 1921 | 5.91 | 16 | 22  | 19  | 193  | 10.16| 2  | 3   | 1  | 18 |     |     | 317    | 336.4 | 343.4 | 326.9 | 159 | 2       | 2      |
+| 3  | Jahmyr Gibbs*   | DET | RB      | 22  | 17 | 4  | 0   | 0   | 0    | 0  | 0   | 250 | 1412 | 5.65 | 16 | 63  | 52  | 517  | 9.94 | 4  | 1   | 1  | 20 |     |     | 311    | 362.9 | 369.9 | 336.9 | 153 | 3       | 3      |
+| 4  | Lamar Jackson*+ | BAL | QB      | 27  | 17 | 17 | 316 | 474 | 4172 | 41 | 4   | 139 | 915  | 6.58 | 4  | 0   | 0   | 0    |      | 0  | 10  | 5  | 4  | 1   |     | 430    | 430.4 | 445.4 | 434.4 | 140 | 1       | 4      |
+| 5  | Ja'Marr Chase*+ | CIN | WR      | 24  | 17 | 16 | 0   | 0   | 0    | 0  | 0   | 3   | 32   | 10.67| 0  | 175 | 127 | 1708 | 13.45| 17 | 0   | 0  | 17 |     |     | 276    | 403   | 406   | 339.5 | 138 | 1       | 5      |
 
 
-The .head() method shows the first few rows, revealing issues like Tm instead of Team or names like Christian McCaffrey*.
+The `.head()` method shows the first few rows, revealing issues like Tm instead of Team or characters at the end of player names.
 ## Step 2: Spotting Data Issues
 Before cleaning, let's identify problems. Common issues in fantasy football datasets include:
-Missing values: Stats like FantPt (fantasy points) may be blank.
-Cryptic column names: Tm or FantPt are unclear.
-Special characters: Names like Patrick Mahomes+ include flags for accolades.
-Unneeded columns: Rk (rank) may be irrelevant.
+
+- Missing values: Stats like FantPt (fantasy points) may be blank.
+
+- Repetitive column names: The data from the csv has columns with the same name.
+
+- Special characters: Names like Saquon Barkley*+ include flags for accolades.
+
+- Unneeded columns: OvRank (overall rank) may be irrelevant as the Rk column already provides overall rank.
+
+
 Check for missing values and column names:
 ### Check for missing values
 ```python
 print(df.isnull().sum())
 ```
 
+Lists the number of missing entries per column.
+
 ### List column names
 ```python
 print(df.columns)
 ```
 
-Suppose the output shows:
+Checks for possible column names we can clear up.
 
-# ADD
-
-This confirms missing values in Tm and FantPt, and Rk is likely unnecessary.
 ## Step 3: Cleaning the Data
 Let's clean the dataset step-by-step.
-**3.1 Handle Missing Values**
-We'll fill missing FantPt values with 0 (assuming no points scored) and drop rows with missing Tm, as team data is critical.
-### Fill missing FantPt with 0
-```python
-df['FantPt'] = df['FantPt'].fillna(0)
-```
 
-### Drop rows with missing Tm
+**3.1 Handle Missing Values**
+
+We'll fill missing metric values with 0.
+
+### Fill missing values with 0
 ```python
-df = df.dropna(subset=['Tm'])
+# List of columns to skip
+skip_cols = ['VBD', 'PosRank', 'OvRank']
+
+# Fill NaN with 0 for all other columns
+for col in df.columns:
+    if col not in skip_cols:
+        df[col] = df[col].fillna(0)
 ```
 
 **3.2 Clean Player Names and Extract Flags**
-Names like Christian McCaffrey* or Patrick Mahomes+ need cleaning. We'll create ProBowl and AllPro columns to flag these accolades and remove the symbols.
+Names like Saquon Barkley*+ or Derrick Henry+ need cleaning. We'll create ProBowl and AllPro columns to flag these accolades and remove the symbols.
 ### Create flag columns
 ```python
 df['ProBowl'] = df['Player'].str.contains('\*', regex=True, na=False)
@@ -76,28 +85,13 @@ df['AllPro'] = df['Player'].str.contains('\+', regex=True, na=False)
 df['Player'] = df['Player'].str.replace('[\*\+]', '', regex=True)
 ```
 
-Here's the transformation:
-Player Before
-Player After
-ProBowl
-AllPro
-Christian McCaffrey*
-Christian McCaffrey
-True
-False
-Patrick Mahomes+
-Patrick Mahomes
-False
-True
-Josh Allen
-Josh Allen
-False
-False
-
 **3.3 Rename Columns**
-Rename Tm to Team and FantPt to FantasyPoints for clarity:
+Rename repetetive column names for clarity:
 ```python
-df = df.rename(columns={'Tm': 'Team', 'FantPt': 'FantasyPoints'})
+df = df.rename(columns={'Att': 'PassAtt', 'Yds': 'PassYds', 'TD': 'PassTD',
+                        'Att.1': 'RushAtt', 'Yds.1': 'RushYds', 'TD.1': 'RushTD',
+                        'Yds.2': 'RecYds', 'TD.2': 'RecTD',
+                        'TD.3': 'TotalTD', })
 ```
 
 **3.4 Fix Data Types**
@@ -107,33 +101,36 @@ df['FantasyPoints'] = df['FantasyPoints'].astype(float)
 ```
 
 **3.5 Drop Unneeded Columns**
-Drop the Rk column, as it’s not needed for analysis:
+Drop the OvRank column, as it’s not needed for analysis:
 ```python
-df = df.drop(columns=['Rk'])
+df = df.drop(columns=['OvRank'])
+```
+
+**3.6 Add Year Column**
+```python
+df['Yr'] = 2024
+
+cols = ['Yr'] + [c for c in df.columns if c != 'Yr']
+df = df[cols]
+
 ```
 
 ## Step 4: The Cleaned Dataset
 After cleaning, our dataset is tidy and analysis-ready. Here's a sample:
-Player
-Team
-FantasyPoints
-ProBowl
-AllPro
-Christian McCaffrey
-SF
-180.5
-True
-False
-Patrick Mahomes
-KC
-200.3
-False
-True
-Josh Allen
-BUF
-195.7
-False
-False
+
+```python
+print(df.head())
+```
+
+| Yr  | Rk | Player           | Tm  | FantPos | Age | G  | GS | Cmp | Att | PassYds | PassTD | Int | RushAtt | RushYds | Y/A | Rush_TD | Tgt | Rec | Rec_Yds | Y/R | Rec_TD | Fmb | FL | TotalTD | 2PM | 2PP | FantPt | PPR   | DKPt  | FDPt  | VBD | PosRank | ProBowl | AllPro |
+|-----|----|-----------------|-----|---------|-----|----|----|-----|-----|----------|---------|-----|----------|----------|-----|---------|-----|-----|---------|-----|--------|-----|----|---------|-----|-----|--------|-------|-------|-------|-----|---------|---------|--------|
+| 2024 | 1  | Saquon Barkley | PHI | RB      | 27  | 16 | 16 | 0   | 0   | 0        | 0       | 0   | 345      | 2005     | 5.81 | 13      | 43  | 33  | 278     | 8.42 | 2      | 2   | 1  | 15      | 3   | 0   | 322    | 355.3 | 362.3 | 338.8 | 163 | 1       | True    | True   |
+| 2024 | 2  | Derrick Henry  | BAL | RB      | 30  | 17 | 17 | 0   | 0   | 0        | 0       | 0   | 325      | 1921     | 5.91 | 16      | 22  | 19  | 193     | 10.16| 2      | 3   | 1  | 18      | 0   | 0   | 317    | 336.4 | 343.4 | 326.9 | 159 | 2       | True    | False  |
+| 2024 | 3  | Jahmyr Gibbs   | DET | RB      | 22  | 17 | 4  | 0   | 0   | 0        | 0       | 0   | 250      | 1412     | 5.65 | 16      | 63  | 52  | 517     | 9.94 | 4      | 1   | 1  | 20      | 0   | 0   | 311    | 362.9 | 369.9 | 336.9 | 153 | 3       | True    | False  |
+| 2024 | 4  | Lamar Jackson | BAL | QB      | 27  | 17 | 17 | 316 | 474 | 4172     | 41      | 4   | 139      | 915      | 6.58 | 4       | 0   | 0   | 0       | 0    | 0      | 10  | 5  | 4       | 1   | 0   | 430    | 430.4 | 445.4 | 434.4 | 140 | 1       | True    | True   |
+| 2024 | 5  | Ja'Marr Chase | CIN | WR      | 24  | 17 | 16 | 0   | 0   | 0        | 0       | 0   | 3        | 32       | 10.67| 0       | 175 | 127 | 1708    | 13.45| 17     | 0   | 0  | 17      | 0   | 0   | 276    | 403   | 406   | 339.5 | 138 | 1       | True    | True   |
+
+
 
 With this clean data, you can:
 Create visualizations with Matplotlib or Seaborn.
