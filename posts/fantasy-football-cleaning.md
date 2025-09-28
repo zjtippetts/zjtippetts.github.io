@@ -1,6 +1,6 @@
 # Cleaning Messy Fantasy Football Data with Pandas
 ## Introduction: Why Clean Data Matters
-Fantasy football is all about data—player stats fuel draft picks, lineup decisions, and bragging rights. But raw datasets from sites like Pro-Football-Reference often arrive messy: missing values, cryptic column names, or player names with symbols like * (Pro Bowl) or + (First-Team All-Pro). Cleaning this data is crucial for reliable analysis, whether you're ranking players or building a predictive model. In this tutorial, you'll learn how to use Pandas to load a messy fantasy football dataset, clean it step-by-step, and prepare it for analysis. By the end, you'll have a tidy dataset ready for visualization or modeling, plus skills to tackle any messy dataset.
+Fantasy football is all about data—player stats fuel draft picks, lineup decisions, and bragging rights. But raw datasets from sites like [Pro-Football-Reference](https://www.pro-football-reference.com/years/2024/fantasy.htm) often arrive messy: missing values, cryptic column names, or player names with symbols like * (Pro Bowl) or + (First-Team All-Pro). Cleaning this data is crucial for reliable analysis, whether you're ranking players or building a predictive model. In this tutorial, you'll learn how to use Pandas to load a messy fantasy football dataset, clean it step-by-step, and prepare it for analysis. By the end, you'll have a tidy dataset ready for visualization or modeling, plus skills to tackle any messy dataset.
 We'll work with a sample CSV, fantasy_football_2024.csv, addressing common issues like missing values, inconsistent names, and special characters. Let's get started!
 ## Step 1: Loading the Dataset
 First, we need to load the dataset into Pandas. Assume our file, fantasy_football_2024.csv, has columns like Player, Tm, FantPt, and Rk, but it's messy—some names have * or +, and column names are unclear.
@@ -36,13 +36,14 @@ print(df.columns)
 ```
 
 Suppose the output shows:
-| Rk | Player            | Tm  | FantPos | Age | G  | GS | Rush Att | Rush Yds | Rush TD | Rec Tgt | Rec | Rec Yds | Rec TD | FantPt | PPR   | DKPt   | FDPT   | VBD |
-|----|-------------------|-----|---------|-----|----|----|----------|----------|---------|---------|-----|---------|--------|--------|-------|--------|--------|-----|
-| 1  | Saquon Barkley*+  | PHI | RB      | 27  | 16 | 16 | 345      | 2005     | 13      | 43      | 33  | 278     | 2      | 322    | 355.3 | 362.3  | 338.8  | 163 |
-| 2  | Derrick Henry*    | BAL | RB      | 30  | 17 | 17 | 325      | 1921     | 16      | 22      | 19  | 193     | 0      | 317    | 336.4 | 343.4  | 326.9  | 159 |
-| 3  | Jahmyr Gibbs*     | DET | RB      | 22  | 17 | 17 | 250      | 1412     | 16      | 63      | 52  | 517     | 4      | 311    | 362.9 | 369.3  | 339.9  | 153 |
-| 4  | Lamar Jackson*+   | BAL | QB      | 27  | 17 | 17 | 139      | 915      | 4       | 0       | 0   | 0       | 0      | 430    | 430.4 | 445.4  | 434.4  | 140 |
-| 5  | Ja'Marr Chase*+   | CIN | WR      | 24  | 17 | 17 | 32       | 170      | 0       | 175     | 127 | 1708    | 13     | 276    | 403.0 | 406.0  | 339.5  | 138 |
+| Rk | Player            | Tm  | FantPos | Age | G  | GS | Rush Att | Rush Yds | Rush TD | Rec Tgt | Rec | Rec Yds | Rec TD | FantPt | PPR   | DKPt   | FDPT   | VBD | PosRank | OvRank |
+|----|------------------|-----|---------|-----|----|----|----------|----------|---------|---------|-----|---------|--------|--------|-------|--------|--------|-----|---------|--------|
+| 1  | Saquon Barkley*+ | PHI | RB      | 27  | 16 | 16 | 345      | 2005     | 13      | 43      | 33  | 278     | 2      | 322    | 355.3 | 362.3  | 338.8  | 163 | 1       | 1      |
+| 2  | Derrick Henry*   | BAL | RB      | 30  | 17 | 17 | 325      | 1921     | 16      | 22      | 19  | 193     | 0      | 317    | 336.4 | 343.4  | 326.9  | 159 | 2       | 2      |
+| 3  | Jahmyr Gibbs*    | DET | RB      | 22  | 17 | 17 | 250      | 1412     | 16      | 63      | 52  | 517     | 4      | 311    | 362.9 | 369.3  | 339.9  | 153 | 3       | 3      |
+| 4  | Lamar Jackson*+  | BAL | QB      | 27  | 17 | 17 | 139      | 915      | 4       | 0       | 0   | 0       | 0      | 430    | 430.4 | 445.4  | 434.4  | 140 | 1       | 4      |
+| 5  | Ja'Marr Chase*+  | CIN | WR      | 24  | 17 | 17 | 32       | 170      | 0       | 175     | 127 | 1708    | 13     | 276    | 403.0 | 406.0  | 339.5  | 138 | 1       | 5      |
+
 
 This confirms missing values in Tm and FantPt, and Rk is likely unnecessary.
 ## Step 3: Cleaning the Data
