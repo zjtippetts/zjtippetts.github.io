@@ -4,15 +4,19 @@ Fantasy football is all about data—player stats fuel draft picks, lineup decis
 We'll work with a sample CSV, fantasy_football_2024.csv, addressing common issues like missing values, inconsistent names, and special characters. Let's get started!
 ## Step 1: Loading the Dataset
 First, we need to load the dataset into Pandas. Assume our file, fantasy_football_2024.csv, has columns like Player, Tm, FantPt, and Rk, but it's messy—some names have * or +, and column names are unclear.
+
+![Pro Football Reference Table](images/2024fantasytable.png)
+
+
 Here's the code to load and inspect it:
 
-### Load the CSV file
+**Load the CSV file**
 ```python
 import pandas as pd
 df = pd.read_csv('fantasy_football_2024.csv')
 ```
 
-### Display the first five rows
+**Display the first five rows**
 ```python
 print(df.head())
 ```
@@ -39,15 +43,15 @@ Before cleaning, let's identify problems. Common issues in fantasy football data
 - Unneeded columns: OvRank (overall rank) may be irrelevant as the Rk column already provides overall rank.
 
 
-Check for missing values and column names:
-### Check for missing values
+
+**Check for missing values**
 ```python
 print(df.isnull().sum())
 ```
 
 Lists the number of missing entries per column.
 
-### List column names
+**List column names**
 ```python
 print(df.columns)
 ```
@@ -57,11 +61,11 @@ Checks for possible column names we can clear up.
 ## Step 3: Cleaning the Data
 Let's clean the dataset step-by-step.
 
-**3.1 Handle Missing Values**
+### 3.1 Handle Missing Values
 
 We'll fill missing metric values with 0.
 
-### Fill missing values with 0
+**Fill missing values with 0**
 ```python
 # List of columns to skip
 skip_cols = ['VBD', 'PosRank', 'OvRank']
@@ -72,20 +76,22 @@ for col in df.columns:
         df[col] = df[col].fillna(0)
 ```
 
-**3.2 Clean Player Names and Extract Flags**
+### 3.2 Clean Player Names and Extract Flags
 Names like Saquon Barkley*+ or Derrick Henry+ need cleaning. We'll create ProBowl and AllPro columns to flag these accolades and remove the symbols.
-### Create flag columns
+
+
+**Create flag columns**
 ```python
 df['ProBowl'] = df['Player'].str.contains('\*', regex=True, na=False)
 df['AllPro'] = df['Player'].str.contains('\+', regex=True, na=False)
 ```
 
-### Remove * and + from Player names
+**Remove * and + from Player names**
 ```python
 df['Player'] = df['Player'].str.replace('[\*\+]', '', regex=True)
 ```
 
-**3.3 Rename Columns**
+### 3.3 Rename Columns
 Rename repetetive column names for clarity:
 ```python
 df = df.rename(columns={'Att': 'PassAtt', 'Yds': 'PassYds', 'TD': 'PassTD',
@@ -94,19 +100,19 @@ df = df.rename(columns={'Att': 'PassAtt', 'Yds': 'PassYds', 'TD': 'PassTD',
                         'TD.3': 'TotalTD', })
 ```
 
-**3.4 Fix Data Types**
+### 3.4 Fix Data Types
 Ensure FantasyPoints is a float for calculations:
 ```python
 df['FantasyPoints'] = df['FantasyPoints'].astype(float)
 ```
 
-**3.5 Drop Unneeded Columns**
+### 3.5 Drop Unneeded Columns
 Drop the OvRank column, as it’s not needed for analysis:
 ```python
 df = df.drop(columns=['OvRank'])
 ```
 
-**3.6 Add Year Column**
+### 3.6 Add and Position Year Column
 ```python
 df['Yr'] = 2024
 
@@ -132,7 +138,7 @@ print(df.head())
 
 
 
-With this clean data, you can:
+### With this clean data, you can:
 Create visualizations with Matplotlib or Seaborn.
 Calculate metrics like points per game.
 Build a model to predict future performance.
