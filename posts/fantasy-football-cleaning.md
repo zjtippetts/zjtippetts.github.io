@@ -42,7 +42,7 @@ Rk
 This confirms missing values in Tm and FantPt, and Rk is likely unnecessary.
 ## Step 3: Cleaning the Data
 Let's clean the dataset step-by-step.
-3.1 Handle Missing Values
+** 3.1 Handle Missing Values **
 We'll fill missing FantPt values with 0 (assuming no points scored) and drop rows with missing Tm, as team data is critical.
 ### Fill missing FantPt with 0
 df['FantPt'] = df['FantPt'].fillna(0)
@@ -50,7 +50,7 @@ df['FantPt'] = df['FantPt'].fillna(0)
 ### Drop rows with missing Tm
 df = df.dropna(subset=['Tm'])
 
-3.2 Clean Player Names and Extract Flags
+** 3.2 Clean Player Names and Extract Flags **
 Names like Christian McCaffrey* or Patrick Mahomes+ need cleaning. We'll create ProBowl and AllPro columns to flag these accolades and remove the symbols.
 ### Create flag columns
 df['ProBowl'] = df['Player'].str.contains('\*', regex=True, na=False)
@@ -77,11 +77,11 @@ Josh Allen
 False
 False
 
-3.3 Rename Columns
+** 3.3 Rename Columns **
 Rename Tm to Team and FantPt to FantasyPoints for clarity:
 df = df.rename(columns={'Tm': 'Team', 'FantPt': 'FantasyPoints'})
 
-3.4 Fix Data Types
+** 3.4 Fix Data Types **
 Ensure FantasyPoints is a float for calculations:
 df['FantasyPoints'] = df['FantasyPoints'].astype(float)
 
