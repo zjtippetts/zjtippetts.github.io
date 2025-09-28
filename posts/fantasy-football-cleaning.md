@@ -143,4 +143,3 @@ Create visualizations with Matplotlib or Seaborn.
 Calculate metrics like points per game.
 Build a model to predict future performance.
 Conclusion: Try It Yourself!
-Cleaning messy fantasy football data with Pandas transforms raw stats into a powerful tool for analysis. You've learned to handle missing values, clean player names, and standardize columns—skills that apply to any dataset. Ready to practice? Clone this repo with the sample dataset and code, run the notebook, and share your cleaned dataset in the comments below!
