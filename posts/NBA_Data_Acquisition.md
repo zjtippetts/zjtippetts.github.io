@@ -97,14 +97,7 @@ The cleaned dataset is saved as `data/processed/nba_merged_2021_2025.csv`.
 
 The analysis reveals that **Point Guards (PG) and Centers (C) have the highest average VORP** in the 2025 season, making them the most valuable positions for team building.
 
-<!-- INSERT GRAPH: vorp_by_position.png -->
-<!-- 
-This 4-panel visualization includes:
-- Bar Chart (Average VORP): Shows PG and C with the highest mean VORP values
-- Box Plot: Displays the widest distributions and most outliers for PG and C
-- Violin Plot: Reveals extended upper tails for PG and C
-- Summary Statistics Table: Shows mean, std, min, max for each position
--->
+![Vorp by Position](../images/vorp_by_position.png)
 
 Key observations:
 - **Box Plot**: PG and C show the widest distributions and most outliers, indicating the highest concentration of star players
@@ -116,10 +109,7 @@ Key observations:
 
 ### 2. Yearly Trends: Steady Patterns with Center Growth
 
-<!-- INSERT GRAPH: vorp_by_position_yearly.png -->
-<!--
-Line graph showing mean VORP by position across 2021-2025 seasons
--->
+![Vorp by Position (Last 5 Years)](../images/vorp_by_position_yearly.png)
 
 The line graph reveals several key patterns:
 
@@ -131,11 +121,9 @@ The line graph reveals several key patterns:
 
 Correlation heatmaps reveal interesting position-specific patterns in what drives VORP:
 
-<!-- INSERT GRAPH: correlation_heatmap_PG_2025.png -->
-<!-- Point Guard correlation heatmap -->
+![Point Guard Correlation Heatmap](../images/correlation_heatmap_PG_2025.png)
 
-<!-- INSERT GRAPH: correlation_heatmap_C_2025.png -->
-<!-- Center correlation heatmap -->
+![Center Correlation Heatmap](../images/correlation_heatmap_C_2025.png)
 
 **For Centers:**
 - **Assists (AST) and Turnovers (TOV)** show stronger correlations with VORP for Centers compared to Point Guards, which is somewhat counterintuitive. This suggests that for big men, playmaking ability and ball security are particularly important indicators of value above replacement level
