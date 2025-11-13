@@ -147,16 +147,12 @@ Correlation heatmaps reveal interesting position-specific patterns in what drive
 **Surprising Finding:**
 - **3-Point Attempt Rate (3PAr)** shows surprisingly weak correlation with VORP for both positions, despite the modern NBA's emphasis on three-point shooting. This suggests that while three-pointers are heavily utilized in today's game, the *rate* at which players attempt threes is not a strong predictor of their value above replacement level. This may indicate that shot quality and efficiency matter more than volume, or that other factors (defense, playmaking, etc.) contribute more significantly to VORP than three-point attempt frequency.
 
-### 4. Outlier Analysis
-
-Using the IQR method (Q3 + 1.5 × IQR), the analysis identifies positive VORP outliers by position. These elite players significantly outperform replacement-level players at their position, with PG and C positions showing the highest concentrations of outliers. The outlier detection reveals that these positions not only have higher average VORP but also produce more exceptional players who create significant value above replacement level.
-
 ## Resources and Next Steps
 
 ### Code Repository
 
 All code, data, and analysis are available in the GitHub repository:
-**[Link to your GitHub repo - replace with actual URL]**
+**[GitHub Repository Link](https://github.com/zjtippetts/Data-Acquisition-NBA)**
 
 The repository includes:
 - `src/data_acquisition.py` - Complete web scraping code
